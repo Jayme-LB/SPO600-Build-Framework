@@ -2,19 +2,49 @@
 #m10k_build_plugin test file
 
 # Unpack source
-tar xf gzip*t*z
+tar xf mariadb*t*z
 
 # Goes into project directorry
-cd gzip-[0-9]*
+cd mariadb-[0-9]*
+
+# Create a new directory for an out-of-source build (recommended when using cmake)
+mkdir build
+cd build
 
 # Read configuration to be tested
 read PERMUTATION
 
-# Set FLAGS to the options from permutation
-export CFLAGS="$PERMUTATION"
+# Set the C and C++ compiler to GCC
+export CC=/usr/bin/gcc
+export CXX=/usr/bin/gcc
 
-./configure || exit $?
+# Set the install directory.
+INSTDIR=${1:?usage: $0 install-dir}
+
+# Set FLAGS to the options from permutation
+CFLAGS="$PERMUTATION"
+CXXFLAGS="$CFLAGS"
+
+# Set the installation layout options
+# Info on options can be found in MariaDB's CMakeCache.txt
+CMAKE_LAYOUT_OPTS="-DINSTALL_SCRIPTDIR=bin \
+-DINSTALL_MYSQLDATADIR=var -DINSTALL_SBINDIR=libexec \
+-DINSTALL_SUPPORTFILESDIR=share -DINSTALL_SYSCONFDIR=etc \
+-DINSTALL_SYSCONF2DIR=etc/my.cnf.d -DCMAKE_INSTALL_PREFIX=$INSTDIR \
+-DMYSQL_DATADIR=$INSTDIR/var"
+
+# Set the feature options
+# Info on options can be found in MariaDB's CMakeCache.txt
+CMAKE_FEATURE_OPTS="-DWITH_READLINE=1 -DWITHOUT_OQGRAPH_STORAGE_ENGINE=1"
+
+# Set the build options
+# Info on options can be found in MariaDB's CMakeCache.txt
+CMAKE_BUILD_OPTS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+
+# Run cmake in the build folder
+cmake .. $CMAKE_BUILD_OPTS $CMAKE_LAYOUT_OPTS $CMAKE_FEATURE_OPTS \
+-DCMAKE_C_FLAGS_RELWITHDEBINFO="$CFLAGS" \
+-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="$CXXFLAGS" ||
+exit $?
 
 make -j8
-
-
