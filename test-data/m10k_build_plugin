@@ -14,10 +14,6 @@ cd build
 # Read configuration to be tested
 read PERMUTATION
 
-# Set the C and C++ compiler to GCC
-export CC=/usr/bin/gcc
-export CXX=/usr/bin/gcc
-
 # Set the install directory.
 INSTDIR=${1:?usage: $0 install-dir}
 
@@ -42,7 +38,9 @@ CMAKE_FEATURE_OPTS="-DWITH_READLINE=1 -DWITHOUT_OQGRAPH_STORAGE_ENGINE=1"
 CMAKE_BUILD_OPTS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
 
 # Run cmake in the build folder
-cmake .. $CMAKE_BUILD_OPTS $CMAKE_LAYOUT_OPTS $CMAKE_FEATURE_OPTS \
+CC=/usr/bin/gcc CXX=/usr/bin/gcc cmake .. $CMAKE_BUILD_OPTS \
+$CMAKE_LAYOUT_OPTS \
+$CMAKE_FEATURE_OPTS \
 -DCMAKE_C_FLAGS_RELWITHDEBINFO="$CFLAGS" \
 -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="$CXXFLAGS" ||
 exit $?
