@@ -1,5 +1,4 @@
 #!/bin/bash
 
-cd mariadb-[0-9]*
-make check
-
+cd mariadb-[0-9]*/build
+make test

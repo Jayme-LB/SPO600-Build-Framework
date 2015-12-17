@@ -5,6 +5,8 @@ install:
 	mkdir -p ~/.m10k/
 	mkdir -p ~/bin
 	cp m10k_* ~/.m10k/ -v
+	cp monkeys10k.config ~/.m10k/ -v
+	cp test-data/m10k_* ~/.m10k/ -v
 	cp m10k ~/bin
 
 test:	
