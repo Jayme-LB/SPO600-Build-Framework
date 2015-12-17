@@ -15,7 +15,7 @@ cd build
 read PERMUTATION
 
 # Set the install directory.
-INSTDIR=${1:?usage: $0 install-dir}
+INSTDIR=$HOME/bin
 
 # Set FLAGS to the options from permutation
 CFLAGS="$PERMUTATION"
@@ -26,8 +26,8 @@ CXXFLAGS="$CFLAGS"
 CMAKE_LAYOUT_OPTS="-DINSTALL_SCRIPTDIR=bin \
 -DINSTALL_MYSQLDATADIR=var -DINSTALL_SBINDIR=libexec \
 -DINSTALL_SUPPORTFILESDIR=share -DINSTALL_SYSCONFDIR=etc \
--DINSTALL_SYSCONF2DIR=etc/my.cnf.d -DCMAKE_INSTALL_PREFIX=$INSTDIR \
--DMYSQL_DATADIR=$INSTDIR/var"
+-DINSTALL_SYSCONF2DIR=etc/my.cnf.d -DCMAKE_INSTALL_PREFIX=$(INSTDIR) \
+-DMYSQL_DATADIR=$(INSTDIR)/var"
 
 # Set the feature options
 # Info on options can be found in MariaDB's CMakeCache.txt
@@ -45,4 +45,4 @@ $CMAKE_FEATURE_OPTS \
 -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="$CXXFLAGS" ||
 exit $?
 
-make -j8
+make -j9

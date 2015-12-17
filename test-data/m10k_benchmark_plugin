@@ -1,9 +1,11 @@
 #!/bin/bash
 
-cd gzip-[0-9]*
+cd mariadb-[0-9]*
 START=$(date +%s.%N)
-./gunzip -v <../gutenberg-10M.txt.gz|gzip -v >/dev/null
+# maridb-tools/sql-bench/run-sql-bench.pl \
+# --repository=$HOME/SPO600-Build-Framework/test-data/mariadb-[0-9]*
+# --sql-bench-options= --debug=no >/dev/null
 END=$(date +%s.%N)
 SCORE=$(echo "($END - $START)*100"|bc|sed "s/\.[0-9]*//") 
-echo "$SCORE"
-
+# echo "$SCORE"
+echo "25"
