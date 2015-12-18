@@ -8,6 +8,7 @@ tar xf mariadb*t*z
 cd mariadb-[0-9]*
 
 # Create a new directory for an out-of-source build (recommended when using cmake)
+rm -rf build
 mkdir build
 cd build
 
@@ -16,9 +17,6 @@ read PERMUTATION
 
 # Set the install directory.
 INSTDIR=$HOME/bin/mariadb
-
-# Set the compiler
-CC=gcc
 
 # Set FLAGS to the options from permutation
 CFLAGS="$PERMUTATION -g -DNDEBUG"
@@ -33,7 +31,7 @@ CMAKE_FEATURE_OPTS="-DWITH_READLINE=1 -DWITHOUT_OQGRAPH_STORAGE_ENGINE=1"
 CMAKE_BUILD_OPTS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
 
 # Run cmake in the build folder
-cmake .. $CMAKE_BUILD_OPTS \
+CC=gcc cmake .. $CMAKE_BUILD_OPTS \
 $CMAKE_LAYOUT_OPTS \
 $CMAKE_FEATURE_OPTS \
 -DCMAKE_C_FLAGS_RELWITHDEBINFO="$CFLAGS"
