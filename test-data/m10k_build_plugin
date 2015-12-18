@@ -15,7 +15,7 @@ cd build
 read PERMUTATION
 
 # Set the install directory.
-INSTDIR=$HOME/bin/mysql
+INSTDIR=$HOME/bin/mariadb
 
 # Set the compiler
 CC=gcc
@@ -38,4 +38,4 @@ $CMAKE_LAYOUT_OPTS \
 $CMAKE_FEATURE_OPTS \
 -DCMAKE_C_FLAGS_RELWITHDEBINFO="$CFLAGS"
 
-make -j13
+make -j13 && make install
